@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+        .gradient-text {
+      font-family: 'Rubik One', sans-serif;
+      font-size: 25px;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: #0B2349;
+      display: table;
+      margin: 20px auto;
+      text-align: center;
+    }
+</style>
+
+<hr>
+<p class="gradient-text">Изменить информацию</p>
+<hr>
+<table align="center" style="width: 30%;max-width: 1920px;" class="table">
+    <tbody>
+        <form method="post" action="{% url 'car_update' object.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <tr>
+                <td align="center">{{ form.photo.label }}</td>
+                <td align="center">{{ form.photo }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.organization.label }}</td>
+               <td align="center">{{ form.organization }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.type.label }}</td>
+                <td align="center">{{ form.type }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.mark.label }}</td>
+                <td align="center">{{ form.mark }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.registration_number.label }}</td>
+                <td align="center">{{ form.registration_number }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.start_mileage.label }}</td>
+                <td align="center">{{ form.start_mileage }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.current_mileage.label }}</td>
+                <td align="center">{{ form.current_mileage }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.VIN.label }}</td>
+                <td align="center">{{ form.VIN }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.board_number.label }}</td>
+                <td align="center">{{ form.board_number }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.passport_number.label }}</td>
+                <td align="center">{{ form.passport_number }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.pasport_date.label }}</td>
+                <td align="center">{{ form.pasport_date }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.registration_date.label }}</td>
+                <td align="center">{{ form.registration_date }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.board_color.label }}</td>
+                <td align="center">{{ form.board_color }}</td>
+            </tr>
+            <tr>
+                <td align="center">{{ form.year.label }}</td>
+                <td align="center">{{ form.year }}</td>
+            </tr>
+            <tr>
+
+                <td colspan="2" align="center">
+                    <button type="submit" class="btn btn-success">Отправить</button>
+                </td>
+            </tr>
+                </form>
+
+    </tbody>
+</table>
+</body>
+</html><!DOCTYPE html>

@@ -1,0 +1,56 @@
+{% load static %}
+<div style=" position: relative; top: 25px;">
+<style>
+        .gradient-text {
+      font-family: 'Rubik One', sans-serif;
+      font-size: 25px;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #0B2349 33%, #0D61BC 66%, #8AA9D6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: #0B2349;
+      display: table;
+      margin: 20px auto;
+      text-align: center;
+    }
+</style>
+        <table style="width: 150%;position: relative; bottom: 250px; left: 400px" class="table">
+            <thead>
+                <tr>
+			        <td>Дата</td>
+                    <td>Тип топлива</td>
+                    <td>Количество</td>
+                    <td>Цена</td>
+                    <td>Сумма</td>
+                    <td></td>
+                    <td>Удалить</td>
+                 </tr>
+            </thead>
+            <tbody>
+            {% for gas_info in gas %}
+                <tr>
+                    <td>{{ gas_info.date_g }}</td>
+                    <td>{{ gas_info.gas_type }}</td>
+                    <td>{{ gas_info.ammount }}л.</td>
+                    <td>{{ gas_info.price }}р.</td>
+                    <td>{{gas_info.summ_g}}р.</td>
+                    <td></td>
+                    <td>
+                        <form action="{% url 'delete_gas' gas_info.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger me-2"> Удалить</button>
+                        </form>
+                    </td>
+		        </tr>
+            {% endfor %}
+                <tr style="border-bottom: transparent">
+                    <td colspan="5">
+                        <form action="{% url 'add_gas'%}">
+                            <button type="submit" class="btn btn-outline-primary me-2">Добавить заправку</button>
+                        </form>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+</div>

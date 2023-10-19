@@ -1,0 +1,118 @@
+{% load static %}
+<div style="position: relative; top: 25px">
+        <table  style="width: 150%;position: relative; bottom: 250px; left: 400px" class="table">
+	            <thead>
+                <tr>
+                    <td>Дата</td>
+                    <td>Вид</td>
+                    <td>Пробег</td>
+                    <td>Запчасти</td>
+                    <td>Описание</td>
+                    <td>Цена за работу</td>
+                    <td>Цена за запчасти</td>
+                    <td>Сумма</td>
+                    <td>Файл</td>
+                    <td>Удалить</td>
+                </tr>
+                </thead>
+                <tbody>
+                <style>
+                    .disabled-link{
+                        cursor: default;
+                        pointer-events: none;
+                        text-decoration: none;
+                    }
+                </style>
+                {% for item in maintance %}
+                <tr data-id="{{ item.id }}" class="companydelete">
+                    <td class="non-click">{{ item.date_m }}</td>
+                    <td class="non-click">{{ item.type_m }}</td>
+                    <td class="non-click">{{ item.millage }}км.</td>
+                    <td class="non-click">{{ item.spare_parts }}</td>
+                    <td class="non-click">{{ item.description }}</td>
+                    <td class="non-click">{{ item.price_of_work }}р.</td>
+                    <td class="non-click">{{ item.price_of_spare_parts }}р.</td>
+                    <td class="non-click">{{ item.summ }}р.</td>
+                    {% if item.file.url != '' %}
+                        <td class="non-click"><a href="{{ item.file.url }}">Файл</a></td>
+                    {% else %}
+                        <td class="non-click">
+                            <p  style="font-size: 14px;"> Б/Ф</p>
+                        </td>
+                    {% endif %}
+                    <td>
+                        <button class="btn btn-outline-danger me-2" type="submit">Удалить</button>
+                    </td>
+                        <script>
+                            $(document).ready(function() {
+                         // CSRF code
+                            function getCookie(name) {
+                                var cookieValue = null;
+                                var i = 0;
+                                if (document.cookie && document.cookie !== '') {
+                                    var cookies = document.cookie.split(';');
+                                    for (i; i < cookies.length; i++) {
+                                        var cookie = jQuery.trim(cookies[i]);
+                                        // Does this cookie string begin with the name we want?
+                                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                            break;
+                                        }
+                                    }
+                                }
+                                return cookieValue;
+                            }
+                            var csrftoken = getCookie('csrftoken');
+
+                            function csrfSafeMethod(method) {
+                                // these HTTP methods do not require CSRF protection
+                                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                            }
+                            $.ajaxSetup({
+                                crossDomain: false, // obviates need for sameOrigin test
+                                beforeSend: function(xhr, settings) {
+                                    if (!csrfSafeMethod(settings.type)) {
+                                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                                    }
+                                }
+                            });
+
+                            $('.companydelete').on('click', function(e) {
+                                e.preventDefault();
+                                var $this = $(this),
+                                    data = $this.data();
+
+
+                                $this.hide();
+                                $.ajax({
+                                    url: {% url 'companydeleteitem' %},
+                                    method: 'POST',
+                                    data: data,
+                                    success: function(d) {
+                                        console.log(d);
+                                    },
+                                    error: function(d) {
+                                        console.log(d);
+                                    }
+                                });
+                            });
+                            $('.companydelete').on('click', '.non-click', function(e) {
+                            e.stopPropagation();
+                            console.log('Perform button action...');
+                            });
+                        });
+
+                    </script>
+                </tr>
+                {% endfor %}
+                <tr style="border-bottom: transparent">
+                    <td colspan="5">
+                        <form action="{% url 'add_m' %}">
+                            <button type="submit" class="btn btn-outline-primary me-2">Добавить ТО</button>
+                        </form>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>

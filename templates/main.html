@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<html lang="en">
+<link type="text/css" rel="stylesheet"  href="{% static 'main_normal.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <title>Список Авто</title>
+    <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid justify-content-start">
+            <form class="container-fluid justify-content-start" action="{% url 'add_car' %}">
+                <button class="btn btn-outline-success me-2" type="submit">Новое авто</button>
+                <form class="container-fluid justify-content-start" action="">
+                    <button class="btn btn-sm btn-outline-secondary" type="button">Помощь</button>
+                </form>
+            </form>
+            </div>
+
+    </nav>
+</head>
+<body>
+<p class="gradient-text"> Список автомобилей</p>
+    <table align="center" v style="width: 80%; max-width: 1600px; position: relative" class="table">
+	        <thead style="text-align: center">
+                <tr>
+                    <td>Фото</td>
+                    <td>Марка и модель</td>
+                    <td>Рег.номер</td>
+                    <td>Цвет</td>
+
+                </tr>
+            </thead>
+            <tbody style="text-align: center;vertical-align: text-top">
+                {% for car in cars %}
+                <tr>
+                    {% if car.photo.url != '' %}
+                        <td onclick="window.location.href='{% url 'car_info' car.id %}'; return false"><img width="50" height="50" src="{{ car.photo.url }}"></td>
+                    {% else %}
+                        <td onclick="window.location.href='{% url 'car_info' car.id %}'; return false"><img width="50" height="50" src="/media/car_photo/nofoto.jpg"></td>
+                    {% endif %}
+                    <td onclick="window.location.href='{% url 'car_info' car.id %}'; return false">{{ car.mark}}</td>
+                    <td onclick="window.location.href='{% url 'car_info' car.id %}'; return false">{{ car.registration_number }}</td>
+                    <td onclick="window.location.href='{% url 'car_info' car.id %}'; return false">{{ car.board_color }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</body>
+</html>

@@ -101,11 +101,9 @@ def export_xlsx(request, pk):
     for i in range(0, len(datasetCar)):
         if i != pk - 1:
             ds = ds.drop(i, axis=0)
-    print(ds)
     ds.at[pk-1, 'organization'] = Organisation.objects.get(id=ds.at[pk-1, 'organization']).name
     ds.at[pk-1, 'mark'] = CarMark.objects.get(id=ds.at[pk-1, 'mark']).name + ' ' + CarMark.objects.get(
         id=ds.at[pk-1, 'mark']).model
-
     datasetGas = GasResource().export()
     ds_gas = pd.read_excel(datasetGas.xlsx)
     for i in range(0, len(datasetGas)):
@@ -121,20 +119,20 @@ def export_xlsx(request, pk):
     data_file = open('XLSX_DATA.XLS', "wb")
     if selects == 'Car':
         pd.DataFrame.to_excel(ds, excel_writer=data_file)
-        name = 'CarDataInfo'
+        name = 'Info_of_car'+': '+ds.at[pk-1, 'registration_number']
     elif selects == 'Maintence':
         pd.DataFrame.to_excel(ds_maintence, excel_writer=data_file)
-        name = 'MaintanceDataInfo'
+        name = 'TO_of_car'+': '+ds.at[pk-1, 'registration_number']
     elif selects == 'Gas':
         pd.DataFrame.to_excel(ds_gas, excel_writer=data_file)
-        name = 'GasDataInfo'
+        name = 'Gas_of_car' +': ' + ds.at[pk-1, 'registration_number']
     else:
         df1 = ds
         df2 = ds_maintence
         df3 = ds_gas
         df = pd.concat([df1, df2, df3])
         pd.DataFrame.to_excel(df, excel_writer=data_file)
-        name = ' FullDataInfo'
+        name = 'Full_info_of_car'+': '+ds.at[pk-1, 'registration_number']
     data_file.close()
     with open('XLSX_DATA.XLS', 'rb') as f:
         file_data = f.read()
